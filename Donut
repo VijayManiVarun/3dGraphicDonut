@@ -1,0 +1,164 @@
+import java.util.Arrays;
+import java.math.*;
+
+
+@SuppressWarnings("unused")
+public class Donut {
+    public static void main(String[] args) throws InterruptedException {
+    	double lowlum = -4583;
+    	double highlum = -lowlum;
+    	double range = 2*highlum;
+    	double lightx = 40;
+    	double lighty = -20;
+    	double lightz = 10;
+    	double A = 0;
+		double B = 0;
+		double r1 = 0.85;
+		double r2 = 1.78;
+		double scale = 1;
+		int donut2x = 150;
+		int donut2y = 150;
+		int k2 = 10;
+		int k1 = 65,w = 0;
+		char ascii[] = new char[(int)(range+3)];
+							//ascii[0] = '.';ascii[1] = ',';ascii[2] = '-';ascii[3] = '~';ascii[4] = ':';ascii[5] = ';';ascii[6] = '=';ascii[7] = '!';ascii[8] = '*';ascii[9] = '#';ascii[10] = '$';ascii[11] = '@';
+		for (int a = 0; a<(int)(range/12); a++) { ascii[a] = '.'; }
+		for (int a = (int)(range/12); a<(int)(range*2/12); a++) { ascii[a] = ','; }
+		for (int a = (int)(range*2/12); a<(int)(range*3/12); a++) { ascii[a] = '-'; }
+		for (int a = (int)(range*3/12); a<(int)(range*4/12); a++) { ascii[a] = '~'; }
+		for (int a = (int)(range*4/12); a<(int)(range*5/12); a++) { ascii[a] = ':'; }
+		for (int a = (int)(range*5/12); a<(int)(range*6/12); a++) { ascii[a] = ';'; }
+		for (int a = (int)(range*6/12); a<(int)(range*7/12); a++) { ascii[a] = '='; }
+		for (int a = (int)(range*7/12); a<(int)(range*8/12); a++) { ascii[a] = '!'; }
+		for (int a = (int)(range*8/12); a<(int)(range*9/12); a++) { ascii[a] = '*'; }
+		for (int a = (int)(range*9/12); a<(int)(range*10/12); a++) { ascii[a] = '#'; }
+		for (int a = (int)(range*10/12); a<(int)(range*11/12); a++) { ascii[a] = '$'; }
+		for (int a = (int)(range*11/12); a<(int)(range); a++) { ascii[a] = '$'; }
+		
+		char[][] donut2 = new char[donut2x][donut2y];
+		
+    	for (int e = 0; e<=100; e++) {
+//    		System.out.println(lowlum);
+//    		System.out.println(highlum);
+        	A+=0.18;
+        	B+=0.15;
+        	Thread.sleep(100);
+    		for (int i = 0; i<(donut2x/3)*2; i++) {
+    			for (int j = 0; j<(donut2y/3)*2; j++) {
+    				donut2[i][j] = ' ';
+    			}
+    		}
+		
+    		for (double phi = 0; phi<=2*Math.PI;phi+=(Math.PI)/100) {
+
+    			for (double theta = 0; theta <=2*Math.PI;theta+=(Math.PI)/100) {
+    				double fl = Math.cos(theta);
+    				double jm = Math.cos(phi);
+    				double df = Math.cos(A);
+    				double jd = Math.cos(B);
+    				
+    				double gh = Math.sin(theta);
+    				double kd = Math.sin(phi);
+    				double sc = Math.sin(A);
+    				double dg = Math.sin(B);//L
+    						
+    				
+    				double dx = ((r2+(r1*fl))*((jd*jm)+(sc*dg*kd))-(r1*df*dg*gh));
+    				double dy = (r2+(r1*fl))*((jm*dg)-(jd*sc*kd))+(r1*df*jd*gh);
+    				double dz = df*(r2+(r1*fl*kd))+(r1*sc*gh);
+    				
+    				int x = (int)Math.round(k1*(dx)/(k2+dz));
+    				int y = (int)Math.round(k1*(dy)/(k2+dz));
+    				double nx = (jd*fl*jm)-dg*((df*gh)-fl*sc*kd);//check
+    				double ny = fl*jm*dg+jd*((df*gh)-(fl*sc*kd));//check
+    				double nz = sc*gh+df*fl*kd;//check
+    				
+    				double luminance = nx*lightx+ny*lighty+nz*lightz;    //(jm*fl*dg)-(df*fl*kd)-(sc*gh)+jd*((df*gh)-(fl*sc*kd));//cosϕcosθsinB−cosAcosθsinϕ−sinAsinθ+cosB(cosAsinθ−cosθsinAsinϕ)
+    				luminance = (double)Math.round(luminance*100)+highlum+1;
+    				
+//    			if (highlum<luminance) {
+//    				highlum = luminance;
+//    			}
+//    			if (lowlum>luminance) {
+//    				lowlum = luminance;
+//    			}
+//    				char d = ' ';
+//					d = donut2[y+25][x+35];
+//    				if(d!=' ') {
+    					donut2[y+25][x+35] = ascii[(int) luminance];
+//    				}
+//    				else {
+//    					donut2[y+25][x+35] = ascii[(int) luminance-100];
+//    				}
+    				
+    				//donut2[y+53][x+112] = '@';
+    				
+    				//System.out.print("x=");
+    				//System.out.println((r2*Math.cos(phi))+(r1*Math.cos(theta)*Math.cos(phi)));//"x:"+x+"y:"+y+"z:"+z);
+    				//System.out.print("y=");
+    				//System.out.println(r1*Math.sin(theta));
+
+    				//donut3[x+60][y+20][z+60] = '.';
+//    				if(donut3[x+60][y+20][z+60]=='.') {
+//    					w++;
+    				}    		
+    				//donut2[(k1*(x+3))/(k2+z+3)][(k1*(y+1))/(k2+z+3)] = '.';    			
+    			}
+    		for (int i = 0; i<donut2x; i++) {
+        	    for (int j = 0; j<donut2y; j++) {
+        	        System.out.print(donut2[i][j]);
+        	    }
+        	    System.out.println();
+        	}
+    		//A+=0.04;
+    		//B+=0.02;
+    	}
+    }
+    //}
+        
+ 
+}//package com.usaco;
+//public class problem_1 {
+//	private String input = null;
+//	public problem_1(String input) {	
+//		this.input = input;	
+//	}	
+//public String wordProcessor(int N, int K) {
+//		String test = input.replace(" ", "");
+//		input+= " ";
+//		String answer= "";
+//		String curr = "";
+//		int currIndex = 0;
+//		int start = 0;
+//		int a = 0;
+//		for (int i = 0; i <2*N; i++)  {
+//			currIndex = input.indexOf(" ", start);	
+//			if (currIndex == -1) {
+//				break;
+//			}	
+//			curr = input.substring(start,currIndex);
+//			a += curr.length();
+//			if (curr.length()>15) {
+//				answer = "Words cannot be greater than 15 characters in this format!";
+//				break;
+//			}
+//			if (a<=K) {
+//				answer+= curr + " ";
+//			}
+//			else if (a > K) {
+//				answer+= "\n" + curr + " ";
+//				a = 0;
+//				a += curr.length();
+//			}
+//			start = currIndex+1;
+//		}
+//		if (test.length()>80) {
+//			answer = "String cannot have more than 80 non-space characters in this format!";		
+//		}
+//		return answer;
+//	}
+//	public static void main(String[] args) {
+//		problem_1 a = new problem_1("hello my name is Bessie and this is my essay");
+//		System.out.println(a.wordProcessor(10,7));
+//	}
+//}
